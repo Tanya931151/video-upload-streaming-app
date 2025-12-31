@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import ReactPlayer from 'react-player';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import ReactPlayer from "react-player";
+import axios from "axios";
 
 const VideoPlayer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchVideo();
@@ -19,8 +19,8 @@ const VideoPlayer = () => {
       const response = await axios.get(`/api/videos/${id}`);
       setVideo(response.data.data.video);
     } catch (error) {
-      setError('Failed to load video');
-      console.error('Failed to fetch video:', error);
+      setError("Failed to load video");
+      console.error("Failed to fetch video:", error);
     } finally {
       setLoading(false);
     }
@@ -41,8 +41,11 @@ const VideoPlayer = () => {
       <div className="page">
         <div className="alert alert-error">
           <h2>Error</h2>
-          <p>{error || 'Video not found'}</p>
-          <button className="btn btn-primary" onClick={() => navigate('/videos')}>
+          <p>{error || "Video not found"}</p>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/videos")}
+          >
             Back to Library
           </button>
         </div>
@@ -50,13 +53,16 @@ const VideoPlayer = () => {
     );
   }
 
-  if (video.status !== 'completed') {
+  if (video.status !== "completed") {
     return (
       <div className="page">
         <div className="alert alert-info">
           <h2>Video Not Ready</h2>
           <p>This video is still being processed. Please check back later.</p>
-          <button className="btn btn-primary" onClick={() => navigate('/videos')}>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/videos")}
+          >
             Back to Library
           </button>
         </div>
@@ -64,14 +70,15 @@ const VideoPlayer = () => {
     );
   }
 
-  const videoUrl = `/api/videos/${id}/stream`;
+  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const videoUrl = `${apiUrl}/api/videos/${id}/stream`;
 
   return (
     <div className="video-player-container">
       <button
         className="btn btn-secondary"
-        onClick={() => navigate('/videos')}
-        style={{ marginBottom: '20px' }}
+        onClick={() => navigate("/videos")}
+        style={{ marginBottom: "20px" }}
       >
         ← Back to Library
       </button>
@@ -86,20 +93,22 @@ const VideoPlayer = () => {
           config={{
             file: {
               attributes: {
-                controlsList: 'nodownload'
-              }
-            }
+                controlsList: "nodownload",
+              },
+            },
           }}
         />
       </div>
 
       <div className="video-info">
         <h2>{video.originalName}</h2>
-        <div className="video-card-status" style={{ marginBottom: '15px' }}>
+        <div className="video-card-status" style={{ marginBottom: "15px" }}>
           <span className={`status-badge status-${video.status}`}>
             {video.status}
           </span>
-          <span className={`status-badge sensitivity-${video.sensitivityStatus}`}>
+          <span
+            className={`status-badge sensitivity-${video.sensitivityStatus}`}
+          >
             {video.sensitivityStatus}
           </span>
         </div>
@@ -114,7 +123,11 @@ const VideoPlayer = () => {
           <div className="video-info-item">
             <span className="video-info-label">Duration</span>
             <span className="video-info-value">
-              {video.duration ? `${Math.floor(video.duration / 60)}:${(video.duration % 60).toString().padStart(2, '0')}` : 'N/A'}
+              {video.duration
+                ? `${Math.floor(video.duration / 60)}:${(video.duration % 60)
+                    .toString()
+                    .padStart(2, "0")}`
+                : "N/A"}
             </span>
           </div>
           <div className="video-info-item">
@@ -126,7 +139,7 @@ const VideoPlayer = () => {
           <div className="video-info-item">
             <span className="video-info-label">Uploaded By</span>
             <span className="video-info-value">
-              {video.uploadedBy?.username || 'Unknown'}
+              {video.uploadedBy?.username || "Unknown"}
             </span>
           </div>
           {video.metadata && (
@@ -142,7 +155,9 @@ const VideoPlayer = () => {
               {video.metadata.codec && (
                 <div className="video-info-item">
                   <span className="video-info-label">Codec</span>
-                  <span className="video-info-value">{video.metadata.codec}</span>
+                  <span className="video-info-value">
+                    {video.metadata.codec}
+                  </span>
                 </div>
               )}
             </>
@@ -154,4 +169,3 @@ const VideoPlayer = () => {
 };
 
 export default VideoPlayer;
-
