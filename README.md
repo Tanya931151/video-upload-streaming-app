@@ -18,7 +18,7 @@ A full-stack video management application I built that allows users to upload vi
 
 **Live Application**:
 - Frontend: [Add your deployed frontend URL here]
-- Backend API: [Add your deployed backend URL here]
+- Backend API: https://sincere-blessing-production.up.railway.app/
 
 **Video Walkthrough**: [Add your demo video link here]
 
