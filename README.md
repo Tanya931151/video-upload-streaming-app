@@ -17,10 +17,9 @@ A full-stack video management application I built that allows users to upload vi
 ## Demo
 
 **Live Application**:
-- Frontend: [Add your deployed frontend URL here]
+- Frontend: https://tanyaassignment.netlify.app/login
 - Backend API: https://sincere-blessing-production.up.railway.app/
 
-**Video Walkthrough**: [Add your demo video link here]
 
 ## Tech Stack
 
