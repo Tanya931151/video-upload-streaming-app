@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { useAuth } from './AuthContext';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useAuth } from "./AuthContext";
 
 const SocketContext = createContext();
 
 export const useSocket = () => {
   const context = useContext(SocketContext);
   if (!context) {
-    throw new Error('useSocket must be used within a SocketProvider');
+    throw new Error("useSocket must be used within a SocketProvider");
   }
   return context;
 };
@@ -18,17 +18,19 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+      const socketUrl =
+        import.meta.env.VITE_SOCKET_URL ||
+        "https://sincere-blessing-production.up.railway.app";
       const newSocket = io(socketUrl, {
-        transports: ['websocket']
+        transports: ["websocket"],
       });
 
-      newSocket.on('connect', () => {
-        console.log('Socket connected');
+      newSocket.on("connect", () => {
+        console.log("Socket connected");
       });
 
-      newSocket.on('disconnect', () => {
-        console.log('Socket disconnected');
+      newSocket.on("disconnect", () => {
+        console.log("Socket disconnected");
       });
 
       setSocket(newSocket);
@@ -45,9 +47,6 @@ export const SocketProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <SocketContext.Provider value={socket}>
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );
 };
-
